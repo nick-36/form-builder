@@ -1,19 +1,19 @@
 import React, { useTransition } from "react";
 import { Button } from "./ui/button";
 import { Save } from "lucide-react";
-import { useDesigner } from "@/app/store/designerStore";
-import { UpdateFormContent } from "../../actions/actions";
+import { useDesigner } from "@/store/designerStore";
+import { UpdateFormContent } from "../../actions/form";
 import { toast } from "@/hooks/use-toast";
 import { ImSpinner } from "react-icons/im";
 
-const SaveFormBtn = ({ id }: { id: number }) => {
+const SaveFormBtn = ({ formId }: { formId: number }) => {
   const elements = useDesigner((state) => state.elements);
   const [loading, startTransition] = useTransition();
 
   const updateFormContent: () => void = async () => {
     try {
       const jsonElement = JSON.stringify(elements);
-      await UpdateFormContent(id, jsonElement);
+      await UpdateFormContent(formId, jsonElement);
       toast({
         title: "Success",
         description: "form has been saved!",

@@ -2,13 +2,10 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { Eye } from "lucide-react";
-import { useDesigner } from "@/app/store/designerStore";
+import { useDesigner } from "@/store/designerStore";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";

@@ -1,6 +1,5 @@
 import React from "react";
-import { GetForms } from "../../actions/actions";
-// import { FormCard } from "./createForm";
+import { GetForms } from "../../actions/form";
 import { Form as FormType } from "@prisma/client";
 import { Skeleton } from "./ui/skeleton";
 import {
@@ -12,13 +11,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatDistance } from "date-fns";
-import { BookText, FilePenLine, MoveUpRight } from "lucide-react";
+import { BookText, FilePenLine, SquareArrowOutUpRight } from "lucide-react";
 import { LuView } from "react-icons/lu";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 
-export const FormCards = async () => {
+export const FormCards: any = async () => {
   const forms = await GetForms();
 
   return (
@@ -49,9 +48,9 @@ export const FormCard = ({ form }: { form: FormType }) => {
           })}
           {form?.published && (
             <span className="flex items-center gap-2">
-              <LuView className="text-muted-foreground" />
+              <LuView className="text-muted-foreground h-4 w-4" />
               <span>{form?.visits?.toLocaleString()}</span>
-              <BookText className="text-muted-foreground" />
+              <BookText className="text-muted-foreground h-4 w-4" />
               <span>{form?.submissions?.toLocaleString()}</span>
             </span>
           )}
@@ -62,9 +61,9 @@ export const FormCard = ({ form }: { form: FormType }) => {
       </CardContent>
       <CardFooter>
         {form?.published && (
-          <Button asChild className="w-full mt-2 gap-4 text-md text-md">
+          <Button asChild className="w-full mt-2 text-md text-md">
             <Link href={`/forms/${form.id}`}>
-              View submissions <MoveUpRight />
+              View submissions <SquareArrowOutUpRight />
             </Link>
           </Button>
         )}
@@ -72,7 +71,7 @@ export const FormCard = ({ form }: { form: FormType }) => {
           <Button
             variant={"secondary"}
             asChild
-            className="w-full mt-2 gap-4 text-md text-md"
+            className="w-full mt-2 text-md text-md"
           >
             <Link href={`/builder/${form.id}`}>
               Edit form <FilePenLine />

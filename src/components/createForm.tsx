@@ -12,7 +12,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { ImSpinner2 } from "react-icons/im";
+import { ImSpinner } from "react-icons/im";
 
 import {
   Form,
@@ -26,7 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "./ui/textarea";
 import { FilePlus } from "lucide-react";
-import { CreateForm } from "../../actions/actions";
+import { CreateForm } from "../../actions/form";
 
 import { formSchema, formSchemaType } from "@/schemas/form";
 import { toast } from "@/hooks/use-toast";
@@ -43,7 +43,6 @@ const CreateFormBtn = () => {
   });
 
   const onSubmit = async (values: formSchemaType) => {
-    console.log(values, "VALUE");
     try {
       const res = await CreateForm(values);
       if (res) {
@@ -130,7 +129,7 @@ const CreateFormBtn = () => {
               >
                 {!form.formState.isSubmitting && <span>Save</span>}
                 {form.formState.isSubmitting && (
-                  <ImSpinner2 className="animate spin" />
+                  <ImSpinner className="animate-spin" />
                 )}
               </Button>
             </DialogFooter>

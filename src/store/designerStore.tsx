@@ -19,7 +19,7 @@ export const useDesigner = create<DesignerStoreState & DesignerStoreAction>(
   (set) => ({
     elements: [],
     setElements: (elements) => {
-      set((state) => {
+      set(() => {
         return {
           elements,
         };

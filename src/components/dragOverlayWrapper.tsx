@@ -3,7 +3,7 @@ import { useDndMonitor, DragOverlay, Active } from "@dnd-kit/core";
 import React, { useState } from "react";
 import { SidebarBtnElementDragOverlay } from "./sidebarBtnElement";
 import { ElementsType, FormElements } from "./formElements";
-import { useDesigner } from "@/app/store/designerStore";
+import { useDesigner } from "@/store/designerStore";
 
 const DragOverlayWrapper = () => {
   const elements = useDesigner((state) => state.elements);
@@ -12,10 +12,10 @@ const DragOverlayWrapper = () => {
     onDragStart: (e) => {
       setDraggedItem(e.active);
     },
-    onDragCancel: (e) => {
+    onDragCancel: () => {
       setDraggedItem(null);
     },
-    onDragEnd: (e) => {
+    onDragEnd: () => {
       setDraggedItem(null);
     },
   });

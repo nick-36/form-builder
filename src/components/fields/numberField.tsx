@@ -6,7 +6,7 @@ import {
   FormElementInstance,
   SubmitFunction,
 } from "../formElements";
-import { MdOutlineTextFields } from "react-icons/md";
+import { Bs123 } from "react-icons/bs";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import * as z from "zod";
@@ -25,13 +25,13 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
-const type: ElementsType = "TextField";
+const type: ElementsType = "NumberField";
 
 const extraAttributes = {
-  label: "Text Field",
+  label: "Number Field",
   required: false,
   helperText: "helper text",
-  placeHolder: "value here..",
+  placeHolder: "0",
 };
 
 export const propertiesSchema = z.object({
@@ -60,7 +60,7 @@ const DesignerComponent = ({
         {label}
         {required && "*"}
       </Label>
-      <Input readOnly placeholder={placeHolder} disabled />
+      <Input readOnly type="number" placeholder={placeHolder} disabled />
       {helperText && (
         <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
       )}
@@ -219,6 +219,7 @@ const FormComponent = ({
         {required && "*"}
       </Label>
       <Input
+        type="number"
         className={cn(error && "border-red-500")}
         placeholder={placeHolder}
         onChange={(e) => {
@@ -226,7 +227,10 @@ const FormComponent = ({
         }}
         onBlur={(e) => {
           if (!submitValue) return;
-          const valid = TextFieldElement.validate(element, e.target.value);
+          const valid = NumberFieldFormElement.validate(
+            element,
+            e.target.value
+          );
           setError(!valid);
           if (!valid) return;
           submitValue(element?.id, value);
@@ -247,7 +251,7 @@ const FormComponent = ({
   );
 };
 
-const TextFieldElement: FormElement = {
+const NumberFieldFormElement: FormElement = {
   type,
   construct: (id: string) => ({
     id,
@@ -255,8 +259,8 @@ const TextFieldElement: FormElement = {
     extraAttributes,
   }),
   designerBtnElement: {
-    icon: MdOutlineTextFields,
-    label: "Text Field",
+    icon: Bs123,
+    label: "Number Field",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -273,4 +277,4 @@ const TextFieldElement: FormElement = {
   },
 };
 
-export default TextFieldElement;
+export default NumberFieldFormElement;

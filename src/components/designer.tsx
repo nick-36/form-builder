@@ -9,7 +9,7 @@ import {
   FormElementInstance,
   FormElements,
 } from "./formElements";
-import { useDesigner } from "@/app/store/designerStore";
+import { useDesigner } from "@/store/designerStore";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
@@ -152,9 +152,7 @@ const DesignerElementWrapper = ({
   element: FormElementInstance;
 }) => {
   const [mouseIsOver, setMouseIsOver] = useState(false);
-  const { removeElement, onSelectElement, selectedElement } = useDesigner(
-    (state) => state
-  );
+  const { removeElement, onSelectElement } = useDesigner((state) => state);
 
   const topHalf = useDroppable({
     id: element?.id + "-top",
@@ -191,7 +189,7 @@ const DesignerElementWrapper = ({
       ref={draggable.setNodeRef}
       {...draggable.listeners}
       {...draggable.attributes}
-      className="relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset w-full  rounded-t-md"
+      className="relative h-auto flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset w-full  rounded-t-md"
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -240,7 +238,7 @@ const DesignerElementWrapper = ({
         {...draggable.listeners}
         {...draggable.attributes}
         className={cn(
-          "flex w-full h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none opacity-100",
+          "flex w-full h-auto min-h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none opacity-100",
           mouseIsOver && "opacity-30",
           topHalf.isOver && "border-t-3 border-t-foreground",
           bottomHalf.isOver && "border-b-3 border-b-foreground"

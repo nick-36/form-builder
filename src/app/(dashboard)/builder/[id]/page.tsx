@@ -1,10 +1,10 @@
 import React from "react";
-import { GetFormById } from "../../../../../actions/actions";
+import { GetFormById } from "../../../../../actions/form";
 import FormBuilder from "@/components/formBuilder";
-
-const BuilderPage = async ({ params }: { params: { id: string } }) => {
-  const idPayload = Number(params?.id);
-  const form = await GetFormById(idPayload);
+const BuilderPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const formId = (await params).id;
+  const formIdNum = Number(formId);
+  const form = await GetFormById(formIdNum);
 
   if (!form) {
     throw new Error("Form Not Found!");

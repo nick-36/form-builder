@@ -6,7 +6,7 @@ import {
   FormElementInstance,
   SubmitFunction,
 } from "../formElements";
-import { MdOutlineTextFields } from "react-icons/md";
+import { BsTextareaResize } from "react-icons/bs";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import * as z from "zod";
@@ -24,21 +24,25 @@ import {
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import { Textarea } from "../ui/textarea";
+import { Slider } from "../ui/slider";
 
-const type: ElementsType = "TextField";
+const type: ElementsType = "TextAreaField";
 
 const extraAttributes = {
-  label: "Text Field",
+  label: "TextArea Field",
   required: false,
   helperText: "helper text",
   placeHolder: "value here..",
+  rows: 3,
 };
 
 export const propertiesSchema = z.object({
   label: z.string().min(2).max(50),
   helperText: z.string().min(2).max(50),
   required: z.boolean().default(false),
-  placeHolder: z.string().max(50),
+  placeHolder: z.string().max(500),
+  rows: z.number().min(1).max(10),
 });
 
 export type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
@@ -53,14 +57,15 @@ const DesignerComponent = ({
   elementInstance: FormElementInstance;
 }) => {
   const element = elementInstance as CustomInstance;
-  const { label, placeHolder, helperText, required } = element?.extraAttributes;
+  const { label, placeHolder, helperText, required, rows } =
+    element?.extraAttributes;
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-2 w-full min-h-[120px]">
       <Label>
         {label}
         {required && "*"}
       </Label>
-      <Input readOnly placeholder={placeHolder} disabled />
+      <Textarea rows={rows} readOnly placeholder={placeHolder} disabled />
       {helperText && (
         <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
       )}
@@ -83,6 +88,7 @@ const PropertiesComponent = ({
       required: element?.extraAttributes?.required,
       helperText: element?.extraAttributes?.helperText,
       placeHolder: element?.extraAttributes?.placeHolder,
+      rows: element?.extraAttributes?.rows,
     },
   });
 
@@ -188,6 +194,27 @@ const PropertiesComponent = ({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="rows"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Rows {form.watch("rows")}</FormLabel>
+              <FormControl>
+                <Slider
+                  defaultValue={[field.value]}
+                  min={1}
+                  max={10}
+                  step={1}
+                  onValueChange={(value) => {
+                    field.onChange(value[0]);
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </form>
     </Form>
   );
@@ -207,7 +234,8 @@ const FormComponent = ({
   const [value, setValue] = useState(defaultValue);
   const [error, setError] = useState(false);
   const element = elementInstance as CustomInstance;
-  const { label, placeHolder, helperText, required } = element?.extraAttributes;
+  const { label, placeHolder, helperText, required, rows } =
+    element?.extraAttributes;
 
   useEffect(() => {
     setError(isInvalid === true);
@@ -218,7 +246,8 @@ const FormComponent = ({
         {label}
         {required && "*"}
       </Label>
-      <Input
+      <Textarea
+        rows={rows}
         className={cn(error && "border-red-500")}
         placeholder={placeHolder}
         onChange={(e) => {
@@ -226,7 +255,10 @@ const FormComponent = ({
         }}
         onBlur={(e) => {
           if (!submitValue) return;
-          const valid = TextFieldElement.validate(element, e.target.value);
+          const valid = TextAreaFormFieldElement.validate(
+            element,
+            e.target.value
+          );
           setError(!valid);
           if (!valid) return;
           submitValue(element?.id, value);
@@ -247,7 +279,7 @@ const FormComponent = ({
   );
 };
 
-const TextFieldElement: FormElement = {
+const TextAreaFormFieldElement: FormElement = {
   type,
   construct: (id: string) => ({
     id,
@@ -255,8 +287,8 @@ const TextFieldElement: FormElement = {
     extraAttributes,
   }),
   designerBtnElement: {
-    icon: MdOutlineTextFields,
-    label: "Text Field",
+    icon: BsTextareaResize,
+    label: "TextArea Field",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -273,4 +305,4 @@ const TextFieldElement: FormElement = {
   },
 };
 
-export default TextFieldElement;
+export default TextAreaFormFieldElement;

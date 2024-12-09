@@ -1,43 +1,24 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LuView } from "react-icons/lu";
-import { GetFormStats } from "../../actions/actions";
-import { Separator } from "@/components/ui/separator";
-import { Suspense } from "react";
-import CreateFormBtn from "@/components/createForm";
+import { GetFormStats } from "../../actions/form";
 import { cn } from "@/lib/utils";
 import { BookText, MousePointerClick, PointerOff } from "lucide-react";
-import FormCards, { FormCardSkeleton } from "@/components/formCards";
+import { ReactNode } from "react";
 
-export default function Home() {
-  return (
-    <div className="flex flex-col min-h-screen min-w-full max-h-screen">
-      <Suspense fallback={<StatsCards loading={true} />}>
-        <CardStatsWrapper />
-      </Suspense>
-      <Separator className="mt-2" />
-      <h2 className="text-4xl font-bold col-span-2 text-white px-4">
-        Your Forms
-      </h2>
-      <Separator className="mt-2" />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-        <CreateFormBtn />
-        <Suspense
-          fallback={[1, 2, 3, 4].map((el) => (
-            <FormCardSkeleton key={el} />
-          ))}
-        >
-          <FormCards />
-        </Suspense>
-      </div>
-    </div>
-  );
+interface StatsCardProps {
+  title: string;
+  description: string;
+  statValue: string | null;
+  className?: string;
+  loading: boolean;
+  icon: React.ReactNode;
 }
 
-async function CardStatsWrapper() {
+export const CardStatsWrapper: any = async (): Promise<ReactNode> => {
   const stats = await GetFormStats();
   return <StatsCards data={stats} loading={false} />;
-}
+};
 
 export const StatsCards = ({
   data,
@@ -47,7 +28,7 @@ export const StatsCards = ({
   loading: boolean;
 }) => {
   return (
-    <div className="w-full grid grid-cols-2 gap-4 items-center p-4">
+    <div className="w-full grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-4 items-center p-4">
       <StatsCard
         title="Total visits"
         statValue={data?.visits.toLocaleString() ?? ""}
@@ -82,15 +63,6 @@ export const StatsCards = ({
       />
     </div>
   );
-};
-
-type StatsCardProps = {
-  title: string;
-  description: string;
-  statValue: string | null;
-  className?: string;
-  loading: boolean;
-  icon: React.ReactNode;
 };
 
 export const StatsCard = ({

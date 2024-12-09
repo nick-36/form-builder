@@ -1,5 +1,5 @@
-import { useDesigner } from "@/app/store/designerStore";
-import React, { ElementType } from "react";
+import { useDesigner } from "@/store/designerStore";
+import React from "react";
 import { FormElements } from "./formElements";
 import { Button } from "./ui/button";
 import { X } from "lucide-react";
