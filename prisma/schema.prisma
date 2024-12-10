@@ -13,7 +13,7 @@ model Form {
   userId         String
   createdAt      DateTime         @default(now())
   published      Boolean          @default(false)
-  name           String           @unique
+  name           String
   description    String           @default("")
   content        String           @default("")
   visits         Int              @default(0)
