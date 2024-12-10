@@ -1,11 +1,12 @@
 "use client";
-import React, { useCallback, useRef, useState, useTransition } from "react";
-import { FormElementInstance, FormElements } from "./formElements";
-import { Button } from "./ui/button";
-import { MousePointerClick } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { MousePointerClick } from "lucide-react";
+import { useCallback, useRef, useState, useTransition } from "react";
 import { ImSpinner } from "react-icons/im";
 import { SubmitForm } from "../../actions/form";
+import { FormElementInstance, FormElements } from "./formElements";
+import { Button } from "./ui/button";
+import Confetti from "react-confetti";
 
 const FormSubmitComponent = ({
   formUrl,
@@ -16,74 +17,93 @@ const FormSubmitComponent = ({
 }) => {
   const formValues = useRef<{ [key: string]: string }>({});
   const formErrors = useRef<{ [key: string]: boolean }>({});
-  const [renderKey, setRenderKey] = useState(new Date()?.getTime());
+  const [renderKey, setRenderKey] = useState(new Date().getTime());
   const [submitted, setSubmitted] = useState(false);
   const [loading, startTransition] = useTransition();
 
-  const validateForm = useCallback(() => {
+  const validateForm = () => {
     for (const element of content) {
       const activeValue = formValues.current[element?.id] ?? "";
       const valid = FormElements[element.type].validate(element, activeValue);
-
+      console.log(element.type, content, valid);
       if (!valid) {
         formErrors.current[element.id] = true;
       }
 
-      if (Object.keys(formErrors).length > 0) {
+      if (Object.keys(formErrors.current).length > 0) {
         return false;
       }
-      return true;
     }
-  }, [content]);
+    return true;
+  };
 
   const submitValue = (key: string, value: string) => {
     formValues.current[key] = value;
   };
-  console.log(formErrors.current, formValues.current, "FORM");
 
   const submitForm: () => void = async () => {
     formErrors.current = {};
     const validForm = validateForm();
     if (!validForm) {
-      setRenderKey(new Date()?.getTime());
+      setRenderKey(new Date().getTime());
       toast({
         title: "Error",
         description: "please check the form for errors",
+        variant: "destructive",
       });
+      return;
     }
     try {
       const jsonContent = JSON.stringify(formValues.current);
-      await SubmitForm(formUrl, jsonContent);
-      setSubmitted(true);
+      const res = await SubmitForm(formUrl, jsonContent);
+      if (res?.success) {
+        setSubmitted(true);
+        formValues.current = {};
+        setRenderKey(new Date().getTime());
+      }
     } catch (error) {
       console.log(error);
       toast({
         title: "Error",
         description: "something went wrong!",
+        variant: "destructive",
       });
     }
   };
 
   if (submitted) {
-    <div className="flex justify-center w-full h-full items-center p-8">
-      <div className="max-w-[620px] flex flex-col flex-grow gap-4 bg-background w-full p-8 overflow-y-auto border shadow-xl shadow-blue-500 rounded-md">
-        <h1 className="text-2xl font-bold">Form Submitted</h1>
-        <p className="text-muted-foreground">
-          Thank you for submitting the form, you can close this page now
-        </p>
-      </div>
-    </div>;
+    return (
+      <>
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          recycle={false}
+          numberOfPieces={1000}
+          gravity={0.2}
+          tweenDuration={2000}
+          opacity={0.8}
+        />
+        <div className="flex justify-center w-full h-screen items-center p-8">
+          <div className="max-w-[620px] flex flex-col flex-grow gap-4 bg-background w-full p-8 overflow-y-auto shadow-md shadow-primary-foreground rounded-md">
+            <h1 className="text-2xl font-bold">Form Submitted 🎉 🎉 🎉</h1>
+            <p className="text-muted-foreground">
+              Thank you for submitting the form, you can close this page now.
+            </p>
+          </div>
+        </div>
+      </>
+    );
   }
   return (
-    <div className="flex justify-center w-full h-screen items-center p-8">
+    <div className="flex justify-center min-w-full min-h-screen items-center p-8">
       <div
         key={renderKey}
-        className="max-w-[620px] flex flex-col flex-grow bg-background gap-4 w-full p-8 overflow-y-auto border shadow-xl shadow-blue-500 rounded-md"
+        className="max-w-[620px] max-h-[800px] flex flex-col flex-grow bg-background gap-4 w-full p-8 overflow-y-auto  shadow-md shadow-primary-foreground rounded-md"
       >
         {content?.map((el) => {
-          const FormElement = FormElements[el.type]?.formComponent;
+          const FormComponent = FormElements[el.type]?.formComponent;
           return (
-            <FormElement
+            <FormComponent
               key={el.id}
               elementInstance={el}
               submitValue={submitValue}
@@ -102,7 +122,6 @@ const FormSubmitComponent = ({
           >
             {!loading && (
               <>
-                {" "}
                 <MousePointerClick />
                 Submit
               </>

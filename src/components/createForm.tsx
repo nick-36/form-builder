@@ -30,9 +30,11 @@ import { CreateForm } from "../../actions/form";
 
 import { formSchema, formSchemaType } from "@/schemas/form";
 import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const CreateFormBtn = () => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const form = useForm<formSchemaType>({
     resolver: zodResolver(formSchema),
@@ -54,6 +56,7 @@ const CreateFormBtn = () => {
         });
       }
       setOpen(false);
+      router.refresh();
       form.reset();
     } catch (error) {
       console.log(error);

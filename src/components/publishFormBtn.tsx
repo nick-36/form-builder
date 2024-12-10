@@ -16,11 +16,12 @@ import {
 import { ImSpinner } from "react-icons/im";
 import { toast } from "@/hooks/use-toast";
 import { PublishForm } from "../../actions/form";
+import { useRouter } from "next/navigation";
 
 const PublishFormBtn = ({ formId }: { formId: number }) => {
   const [loading, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
-  // const router = useRouter()
+  const router = useRouter()
 
   const publishForm: () => void = async () => {
     try {
@@ -30,7 +31,7 @@ const PublishFormBtn = ({ formId }: { formId: number }) => {
         description: "Form published successfully!",
       });
       setIsOpen(false);
-      // router.refresh()
+      router.refresh()
     } catch (error) {
       console.log(error);
       toast({

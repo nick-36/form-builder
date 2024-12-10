@@ -212,6 +212,9 @@ const FormComponent = ({
   useEffect(() => {
     setError(isInvalid === true);
   }, [isInvalid]);
+
+  console.log(error, "ERROR-NUMBER");
+
   return (
     <div className="flex flex-col gap-2 w-full">
       <Label className={cn(error && "text-red-500")}>
@@ -271,6 +274,7 @@ const NumberFieldFormElement: FormElement = {
   ): boolean => {
     const element = formElement as CustomInstance;
     if (element?.extraAttributes?.required) {
+      console.log(currentValue,'NUM VL')
       return currentValue?.length > 0;
     }
     return true;

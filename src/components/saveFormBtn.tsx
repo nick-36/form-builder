@@ -17,7 +17,8 @@ const SaveFormBtn = ({ formId }: { formId: number }) => {
       await UpdateFormContent(formId, jsonElement);
       toast({
         title: "Success",
-        description: "form has been saved!",
+        description: "form saved successfully!",
+        className: "border-dashed border-green-300",
       });
     } catch (error) {
       console.log(error);

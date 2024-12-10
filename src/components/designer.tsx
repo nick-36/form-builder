@@ -101,12 +101,15 @@ const Designer = () => {
   });
   return (
     <div className="w-full h-full flex">
-      <div className="w-full grid grid-cols-4 gap-2">
-        <div className="w-full h-full flex justify-center items-center bg-background">
+      <div className="w-full grid grid-cols-4 gap-2 h-full">
+        {/* Designer Sidebar */}
+        <div className="h-full overflow-y-auto flex justify-center items-center bg-background">
           <DesignerSideBar />
         </div>
+
+        {/* Main Content */}
         <div
-          className="p-4 col-span-2"
+          className="p-4 col-span-2 h-full overflow-y-auto"
           onClick={(e) => {
             e.stopPropagation();
             onSelectElement(null);
@@ -115,7 +118,7 @@ const Designer = () => {
           <div
             ref={droppable.setNodeRef}
             className={cn(
-              "w-full h-full m-auto flex flex-col flex-grow flex-1 overflow-y-auto justify-start items-center bg-background rounded-xl",
+              "w-full h-full m-auto flex flex-col overflow-y-auto justify-start items-center bg-background rounded-xl",
               droppable.isOver && "ring-2 ring-primary ring-inset"
             )}
           >
@@ -124,21 +127,24 @@ const Designer = () => {
                 Drop Here
               </p>
             )}
-            {droppable.isOver && (
-              <div className="p-4 w-full">
-                <div className="h-[120px] rounded-md bg-primary/20"></div>
-              </div>
-            )}
+
             {elements.length > 0 && (
-              <div className="flex flex-col  w-full gap-2 p-4">
+              <div className="flex flex-col w-full gap-2 p-4">
                 {elements.map((el) => (
                   <DesignerElementWrapper key={el.id} element={el} />
                 ))}
               </div>
             )}
+            {droppable.isOver && (
+              <div className="p-4 w-full">
+                <div className="h-[120px] rounded-md bg-primary/20 animate-pulse"></div>
+              </div>
+            )}
           </div>
         </div>
-        <div className="w-full h-full flex justify-center items-center bg-background">
+
+        {/* Properties Sidebar */}
+        <div className="h-full overflow-y-auto flex justify-center items-center bg-background">
           <PropertiesSidebar />
         </div>
       </div>

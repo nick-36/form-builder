@@ -1,4 +1,5 @@
-import React, { ReactNode } from "react";
+"use client";
+import React, { useMemo } from "react";
 import { GetFormWithSubmission } from "../../actions/form";
 import { ElementsType, FormElementInstance } from "./formElements";
 import {
@@ -8,101 +9,136 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableCaption,
 } from "@/components/ui/table";
-import { formatDistance } from "date-fns";
+import { formatDistance, format } from "date-fns";
 import { Badge } from "./ui/badge";
-import { format } from "date-fns";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  useReactTable,
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+} from "@tanstack/react-table";
+import { Form, FormSubmission } from "@prisma/client";
 
 type Row = {
-  [key: string]: string;
+  [key: string]: string | Date;
 } & {
   submittedAt: Date;
 };
+type SubmittedForm = {
+  FormSubmission: FormSubmission[]; // Array of submissions
+} & Form;
+const SubmissionTable = ({
+  id,
+  submittedForm,
+}: {
+  id: number;
+  submittedForm: SubmittedForm;
+}) => {
+  const formElements = JSON.parse(
+    submittedForm?.content
+  ) as FormElementInstance[];
 
-const SubmissionTable = async ({ id }: { id: number }) => {
-  const form = await GetFormWithSubmission(id);
+  const columnHelper = createColumnHelper<Row>();
 
-  if (!form) {
-    throw new Error("Form Not Found!");
-  }
-
-  const formElements = JSON.parse(form?.content) as FormElementInstance[];
-
-  const columns: {
-    id: string;
-    label: string;
-    required: boolean;
-    type: ElementsType;
-  }[] = [];
-
-  formElements.forEach((element) => {
-    switch (element?.type) {
-      case "TextField":
-      case "NumberField":
-      case "TextAreaField":
-      case "SelectField":
-      case "DateField":
-      case "CheckboxField":
-        columns.push({
+  const columns = [
+    ...formElements
+      .filter((element) =>
+        [
+          "TextField",
+          "NumberField",
+          "TextAreaField",
+          "SelectField",
+          "DateField",
+          "CheckboxField",
+        ].includes(element.type)
+      )
+      .map((element) =>
+        columnHelper.accessor((row) => row[element.id] as string, {
           id: element.id,
-          type: element.type,
-          label: element?.extraAttributes?.label,
-          required: element?.extraAttributes?.required,
-        });
-        break;
+          header: element.extraAttributes?.label,
+          cell: (info) =>
+            renderCell(info.getValue() as string, element.type as ElementsType),
+        })
+      ),
 
-      default:
-        break;
-    }
+    columnHelper.accessor((row) => row.submittedAt, {
+      id: "submittedAt",
+      header: "Submitted At",
+      cell: (info) => (
+        <span>
+          {formatDistance(new Date(info.getValue() as Date), new Date(), {
+            addSuffix: true,
+          })}
+        </span>
+      ),
+    }),
+  ];
+
+  const rows = submittedForm.FormSubmission.map((submission) => ({
+    ...JSON.parse(submission.content),
+    submittedAt: submission.createdAt,
+  }));
+
+  const table = useReactTable({
+    data: rows,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
   });
 
-  const rows: Row[] = [];
-
-  form.FormSubmission.forEach((submission) => {
-    const content = JSON.parse(submission.content);
-    rows.push({
-      ...content,
-      submittedAt: submission.createdAt,
-    });
-  });
   return (
     <div>
       <h1 className="text-2xl font-bold my-4">Submissions</h1>
       <div className="rounded-md border">
         <Table>
-          {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+          <TableCaption>A list of recent submission.</TableCaption>
           <TableHeader>
             <TableRow>
-              {columns.map((column) => (
-                <TableHead key={column.id} className="uppercase">
-                  {column.label}
-                </TableHead>
-              ))}
-              <TableHead className="text-muted-foreground uppercase text-right">
-                Submitted At
-              </TableHead>
+              {table
+                .getHeaderGroups()
+                .map((headerGroup) =>
+                  headerGroup.headers.map((header) => (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  ))
+                )}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {rows?.map((row) => {
-              return (
-                <TableRow key={row?.id}>
-                  {columns?.map((column) => (
-                    <RowCell
-                      key={column.id}
-                      type={column.type}
-                      value={row[column.id]}
-                    />
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className="sm:table-cell">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
                   ))}
-                  <TableCell className="text-muted-foreground text-right">
-                    {formatDistance(row?.submittedAt, new Date(), {
-                      addSuffix: true,
-                    })}
-                  </TableCell>
                 </TableRow>
-              );
-            })}
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
@@ -112,23 +148,15 @@ const SubmissionTable = async ({ id }: { id: number }) => {
 
 export default SubmissionTable;
 
-const RowCell = ({ type, value }: { type: ElementsType; value: string }) => {
-  let node: ReactNode = value;
-
+const renderCell = (value: string, type: ElementsType) => {
   switch (type) {
-    case "DateField": {
-      if (!value) return;
-      const date = new Date(value);
-      node = <Badge>{format(date, "dd/MM/yyyy")}</Badge>;
-      break;
-    }
-    case "CheckboxField": {
-      const checked = value === "true" ? true : false;
-      node = <Checkbox checked={checked} disabled />;
-      break;
-    }
+    case "DateField":
+      return (
+        <Badge>{value ? format(new Date(value), "dd/MM/yyyy") : ""}</Badge>
+      );
+    case "CheckboxField":
+      return <Checkbox checked={value === "true"} disabled />;
     default:
-      break;
+      return value;
   }
-  return <TableCell>{node}</TableCell>;
 };

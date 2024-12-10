@@ -1,5 +1,8 @@
 import React from "react";
-import { GetFormById } from "../../../../../actions/form";
+import {
+  GetFormById,
+  GetFormWithSubmission,
+} from "../../../../../actions/form";
 import VisitBtn from "@/components/visitBtn";
 import FormLinkShare from "@/components/formLinkShare";
 import { StatsCard } from "@/components/statsCard";
@@ -16,6 +19,8 @@ const FormDetailsPage = async ({
   const formId = (await params).id;
   const idPayload = Number(formId);
   const form = await GetFormById(idPayload);
+  const submittedForm = await GetFormWithSubmission(idPayload);
+  console.log(form, "FORM");
 
   if (!form) {
     throw new Error("Form Not Found!");
@@ -53,7 +58,7 @@ const FormDetailsPage = async ({
         />
         <StatsCard
           title="Submission Rate"
-          statValue={form?.submissionRate.toLocaleString() ?? ""}
+          statValue={`${form?.submissionRate.toLocaleString() ?? ""}%`}
           description="all the visits that results into submissions"
           className="shadow-md shadow-green-600"
           loading={false}
@@ -61,7 +66,7 @@ const FormDetailsPage = async ({
         />
         <StatsCard
           title="Bounce Rate"
-          statValue={form?.submissionRate.toLocaleString() ?? ""}
+          statValue={`${form?.bounceRate.toLocaleString() ?? ""}%`}
           description="all the visits that left without interacting"
           className="shadow-md shadow-red-600"
           loading={false}
@@ -70,8 +75,7 @@ const FormDetailsPage = async ({
       </div>
       <Separator />
       <div className="pb-10">
-        {/* @ts-expect-error Server Component */}
-        <SubmissionTable id={form?.id} />
+        <SubmissionTable id={form?.id} submittedForm={submittedForm} />
       </div>
     </div>
   );

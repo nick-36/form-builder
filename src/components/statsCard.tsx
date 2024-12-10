@@ -47,7 +47,7 @@ export const StatsCards = ({
       />
       <StatsCard
         title="Submission Rate"
-        statValue={data?.submissionRate.toLocaleString() ?? ""}
+        statValue={`${data?.submissionRate.toLocaleString() ?? ""}%`}
         description="all the visits that results into submissions"
         className="shadow-md shadow-green-600"
         loading={loading}
@@ -55,7 +55,7 @@ export const StatsCards = ({
       />
       <StatsCard
         title="Bounce Rate"
-        statValue={data?.submissionRate.toLocaleString() ?? ""}
+        statValue={`${data?.bounceRate.toLocaleString()}%` || ""}
         description="all the visits that left without interacting"
         className="shadow-md shadow-red-600"
         loading={loading}

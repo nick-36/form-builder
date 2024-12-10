@@ -25,6 +25,7 @@ import Confetti from "react-confetti";
 const FormBuilder = ({ form }: { form: Form }) => {
   const { setElements, onSelectElement } = useDesigner((state) => state);
   const [isReady, setIsReady] = useState(false);
+
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
       distance: 10,
@@ -70,12 +71,12 @@ const FormBuilder = ({ form }: { form: Form }) => {
           opacity={0.8}
         />
         <div className="flex flex-col items-center justify-center w-full min-h-screen">
-          <div className="max-w-md">
+          <div className="max-w-md p-4 shadow-md shadow-primary-foreground rounded-sm">
             <h1 className="text-center text-2xl font-bold text-primary border-b pb-2 mb-10">
               🎉🎉🎉 Form Published 🎉🎉🎉
             </h1>
             <h2 className="text-xl">Share this form</h2>
-            <h3 className="text-xl text-muted-foreground border-b pb-10">
+            <h3 className="text-sm text-muted-foreground border-b pb-6">
               Anyone with the link can view and submit the form
             </h3>
             <div className="my-4 flex flex-col items-center pb-4 w-full border-b">

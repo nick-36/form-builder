@@ -27,12 +27,11 @@ export async function GetFormStats() {
   const submissions = stats._sum.submissions ?? 0;
 
   let submissionRate = 0;
-
+  let bounceRate = 0;
   if (visits > 0) {
-    submissionRate = (submissionRate / visits) * 100;
+    submissionRate = (submissions / visits) * 100;
+    bounceRate = 100 - submissionRate;
   }
-
-  const bounceRate = 100 - submissionRate;
 
   return {
     visits,
@@ -76,19 +75,20 @@ export async function GetFormById(id: number) {
   });
 
   if (!form) {
-    throw new Error(`form with id ${id} not found`);
+    throw new Error(`Form with id ${id} not found`);
   }
 
   const visits = form.visits ?? 0;
   const submissions = form.submissions ?? 0;
 
   let submissionRate = 0;
+  let bounceRate = 0;
 
   if (visits > 0) {
-    submissionRate = (submissionRate / visits) * 100;
+    submissionRate = (submissions / visits) * 100;
+    bounceRate = 100 - submissionRate;
   }
 
-  const bounceRate = 100 - submissionRate;
   const response = {
     ...form,
     visits,
@@ -188,12 +188,6 @@ export async function PublishForm(id: number) {
 }
 
 export async function GetFormByFormURL(formUrl: string) {
-  const user = await currentUser();
-
-  if (!user) {
-    throw new UserNotFoundErr();
-  }
-
   const form = await prisma.form.update({
     where: {
       shareURL: formUrl,
@@ -215,22 +209,30 @@ export async function GetFormByFormURL(formUrl: string) {
 }
 
 export async function SubmitForm(formUrl: string, content: string) {
-  return await prisma.form.update({
-    where: {
-      shareURL: formUrl,
-      published: true,
-    },
-    data: {
-      submissions: {
-        increment: 1,
+  try {
+    await prisma.form.update({
+      where: {
+        shareURL: formUrl,
+        published: true,
       },
-      FormSubmission: {
-        create: {
-          content,
+      data: {
+        submissions: {
+          increment: 1,
+        },
+        FormSubmission: {
+          create: {
+            content,
+          },
         },
       },
-    },
-  });
+    });
+    return {
+      success: true,
+    };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Something went wrong!");
+  }
 }
 
 export async function GetFormWithSubmission(id: number) {

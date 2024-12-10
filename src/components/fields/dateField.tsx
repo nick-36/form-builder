@@ -45,7 +45,6 @@ export const propertiesSchema = z.object({
   label: z.string().min(2).max(50),
   helperText: z.string().min(2).max(50),
   required: z.boolean().default(false),
-  placeHolder: z.string().max(50),
 });
 
 export type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
@@ -198,12 +197,11 @@ const FormComponent = ({
   defaultValue?: string;
 }) => {
   const [date, setDate] = useState<Date | undefined>(
-    defaultValue ? new Date(defaultValue) : new Date()
+    defaultValue ? new Date(defaultValue) : undefined
   );
   const [error, setError] = useState(false);
   const element = elementInstance as CustomInstance;
   const { label, helperText, required } = element?.extraAttributes;
-
   useEffect(() => {
     setError(isInvalid === true);
   }, [isInvalid]);
@@ -237,6 +235,7 @@ const FormComponent = ({
               const value = date?.toUTCString() || "";
               const valid = DateFieldFormElement.validate(element, value);
               setError(!valid);
+              console.log(value, "SELECTED");
               submitValue(element?.id, value);
             }}
             className="rounded-md border"
