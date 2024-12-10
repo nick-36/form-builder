@@ -101,7 +101,7 @@ const Designer = () => {
   });
   return (
     <div className="w-full h-full flex">
-      <div className="w-full grid grid-cols-4 gap-2 h-full">
+      <div className="w-full grid grid-cols-[320px,1fr,320px] gap-2 h-full">
         {/* Designer Sidebar */}
         <div className="h-full overflow-y-auto flex justify-center items-center bg-background">
           <DesignerSideBar />
@@ -109,7 +109,7 @@ const Designer = () => {
 
         {/* Main Content */}
         <div
-          className="p-4 col-span-2 h-full overflow-y-auto"
+          className="p-4 h-full overflow-y-auto"
           onClick={(e) => {
             e.stopPropagation();
             onSelectElement(null);
@@ -195,7 +195,7 @@ const DesignerElementWrapper = ({
       ref={draggable.setNodeRef}
       {...draggable.listeners}
       {...draggable.attributes}
-      className="relative h-auto flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset w-full  rounded-t-md"
+      className="cursor-grab relative h-auto flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset w-full  rounded-t-md"
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -244,7 +244,7 @@ const DesignerElementWrapper = ({
         {...draggable.listeners}
         {...draggable.attributes}
         className={cn(
-          "flex w-full h-auto min-h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none opacity-100",
+          "cursor-grab flex w-full h-auto min-h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none opacity-100",
           mouseIsOver && "opacity-30",
           topHalf.isOver && "border-t-3 border-t-foreground",
           bottomHalf.isOver && "border-b-3 border-b-foreground"

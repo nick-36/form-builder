@@ -33,7 +33,7 @@ import { cn } from "@/lib/utils";
 import { RxDropdownMenu } from "react-icons/rx";
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "../ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
@@ -124,7 +124,7 @@ const PropertiesComponent = ({
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(applyChange)} className="space-y-3">
+      <form onSubmit={form.handleSubmit(applyChange)} className="space-y-5">
         <FormField
           control={form.control}
           name="label"
@@ -193,9 +193,7 @@ const PropertiesComponent = ({
             <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
               <div className="space-y-0.5">
                 <FormLabel>Required</FormLabel>
-                <FormDescription>
-                  The helperText of the field.It will display below the field
-                </FormDescription>
+                <FormDescription>To mark field required</FormDescription>
               </div>
               <FormControl>
                 <Switch
@@ -253,7 +251,7 @@ const PropertiesComponent = ({
                           field.onChange(newOptions);
                         }}
                       >
-                        <X />
+                        <Trash2 className={"text-red-500"} />
                       </Button>
                     </div>
                   );

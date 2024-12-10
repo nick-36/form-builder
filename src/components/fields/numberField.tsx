@@ -103,7 +103,7 @@ const PropertiesComponent = ({
       <form
         onBlur={form.handleSubmit(applyChange)}
         onSubmit={(e) => e.preventDefault()}
-        className="space-y-3"
+        className="space-y-5"
       >
         <FormField
           control={form.control}
@@ -173,9 +173,7 @@ const PropertiesComponent = ({
             <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
               <div className="space-y-0.5">
                 <FormLabel>Required</FormLabel>
-                <FormDescription>
-                  The helperText of the field.It will display below the field
-                </FormDescription>
+                <FormDescription>To mark field required</FormDescription>
               </div>
               <FormControl>
                 <Switch
@@ -212,8 +210,6 @@ const FormComponent = ({
   useEffect(() => {
     setError(isInvalid === true);
   }, [isInvalid]);
-
-  console.log(error, "ERROR-NUMBER");
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -274,7 +270,7 @@ const NumberFieldFormElement: FormElement = {
   ): boolean => {
     const element = formElement as CustomInstance;
     if (element?.extraAttributes?.required) {
-      console.log(currentValue,'NUM VL')
+      console.log(currentValue, "NUM VL");
       return currentValue?.length > 0;
     }
     return true;

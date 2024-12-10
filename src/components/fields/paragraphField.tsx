@@ -86,14 +86,14 @@ const PropertiesComponent = ({
       <form
         onBlur={form.handleSubmit(applyChange)}
         onSubmit={(e) => e.preventDefault()}
-        className="space-y-3"
+        className="space-y-5"
       >
         <FormField
           control={form.control}
           name="text"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Text</FormLabel>
+              <FormLabel>Paragraph</FormLabel>
               <FormControl>
                 <Textarea
                   rows={5}

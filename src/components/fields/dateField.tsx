@@ -114,7 +114,7 @@ const PropertiesComponent = ({
       <form
         onBlur={form.handleSubmit(applyChange)}
         onSubmit={(e) => e.preventDefault()}
-        className="space-y-3"
+        className="space-y-5"
       >
         <FormField
           control={form.control}
@@ -165,9 +165,7 @@ const PropertiesComponent = ({
             <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
               <div className="space-y-0.5">
                 <FormLabel>Required</FormLabel>
-                <FormDescription>
-                  The helperText of the field.It will display below the field
-                </FormDescription>
+                <FormDescription>To mark field required</FormDescription>
               </div>
               <FormControl>
                 <Switch

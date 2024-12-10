@@ -37,7 +37,7 @@ const PropertiesSidebar = () => {
     selectedElement && FormElements[selectedElement.type]?.propertiesComponent;
 
   return (
-    <aside className="w-[400px] flex flex-col flex-grow border-l-2 border-muted p-4 bg-background overflow-y-auto h-full max-w-[400px]">
+    <aside className="w-[200px] flex flex-col flex-grow border-l-2 border-muted p-4 bg-background overflow-y-auto h-full max-w-[400px]">
       <div className="flex items-center justify-between">
         <p className="text-sm text-foreground/70">
           {selectedElement ? "Element Properties" : ""}
