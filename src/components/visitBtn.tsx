@@ -8,7 +8,7 @@ const VisitBtn = ({ shareURl }: { shareURl: string }) => {
   return (
     <div className="flex">
       <Button
-        className={"w-[250px]"}
+        className={"w-auto min-w-[200px]"}
         onClick={() => {
           window.open(shareLink, "_blank");
         }}

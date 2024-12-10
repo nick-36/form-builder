@@ -6,6 +6,7 @@ import { StatsCard } from "@/components/statsCard";
 import { BookText, MousePointerClick, PointerOff } from "lucide-react";
 import { LuView } from "react-icons/lu";
 import SubmissionTable from "@/components/submissionTable";
+import { Separator } from "@/components/ui/separator";
 
 const FormDetailsPage = async ({
   params,
@@ -21,16 +22,19 @@ const FormDetailsPage = async ({
   }
   return (
     <div className="py-10 border-b border-muted flex flex-col">
-      <div className="flex justify-between">
-        <h1 className="text-4xl font-bold truncate">{form?.name}</h1>
-        <VisitBtn shareURl={form?.shareURL} />
-      </div>
-      <div className="py-4 border-b border-muted">
-        <div className="flex gap-2 items-center justify-between">
-          <FormLinkShare shareURl={form?.shareURL} />
+      <div className="px-4">
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-3xl font-bold truncate">{form?.name}</h1>
+          <VisitBtn shareURl={form?.shareURL} />
+        </div>
+        <Separator />
+        <div className="py-4 border-b border-muted">
+          <div className="flex gap-2 items-center justify-between">
+            <FormLinkShare shareURl={form?.shareURL} />
+          </div>
         </div>
       </div>
-      <div className="w-full pt-8 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 container">
+      <div className="w-full gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-8">
         <StatsCard
           title="Total visits"
           statValue={form?.visits.toLocaleString() ?? ""}
@@ -64,7 +68,9 @@ const FormDetailsPage = async ({
           icon={<PointerOff className="text-red-500" />}
         />
       </div>
-      <div className="container pb-10">
+      <Separator />
+      <div className="pb-10">
+        {/* @ts-expect-error Server Component */}
         <SubmissionTable id={form?.id} />
       </div>
     </div>

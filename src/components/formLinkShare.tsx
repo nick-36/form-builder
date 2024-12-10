@@ -8,10 +8,14 @@ import { toast } from "@/hooks/use-toast";
 const FormLinkShare = ({ shareURl }: { shareURl: string }) => {
   const shareLink = `${process.env.NEXT_PUBLIC_BASE_URL}/submit/${shareURl}`;
   return (
-    <div className="flex flex-grow gap-4 items-center">
-      <Input value={shareLink} readOnly />
+    <div className="flex items-center justify-between gap-4 w-full">
+      <Input
+        value={shareLink}
+        readOnly
+        className="w-full sm:w-auto sm:min-w-[300px] md:min-w-[400px] lg:min-w-[600px] max-w-full"
+      />
       <Button
-        className={"w-[250px]"}
+        className="shrink-0 min-w-[200px]"
         onClick={() => {
           navigator.clipboard.writeText(shareLink);
           toast({

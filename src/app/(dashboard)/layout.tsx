@@ -1,5 +1,6 @@
 import Logo from "@/components/logo";
 import ThemeSwitcher from "@/components/themeSwitcher";
+import { Separator } from "@/components/ui/separator";
 import { UserButton } from "@clerk/nextjs";
 import React from "react";
 
@@ -13,6 +14,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <UserButton signInUrl="/sign-in" />
         </div>
       </nav>
+      <Separator />
       {children}
     </div>
   );

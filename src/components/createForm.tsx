@@ -68,15 +68,12 @@ const CreateFormBtn = () => {
   return (
     <Dialog modal={true} open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={"outline"}
-          className="group bg-background border border-primary/50 h-[190px] item-center justify-center flex flex-col hover:border-primary hover:cursor-pointer border-dashed gap-4"
-        >
-          <FilePlus className="w-12 h-12 text-foreground group-hover:text-primary" />
+        <div className="group bg-background border border-primary/50 flex flex-col justify-center items-center h-[190px] hover:border-primary hover:cursor-pointer border-dashed gap-4 rounded-md">
+          <FilePlus className="w-8 h-8 text-foreground group-hover:text-primary" />
           <p className="text-foreground font-bold text-xl group-hover:text-primary">
             Create New Form
           </p>
-        </Button>
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

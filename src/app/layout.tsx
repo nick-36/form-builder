@@ -20,21 +20,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={cn(poppins.className)}>
-          <NextTopLoader />
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <main>{children}</main>
-            <Toaster />
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+    <>
+      {/* @ts-expect-error Server Component */}
+      <ClerkProvider>
+        <html lang="en">
+          <body className={cn(poppins.className)}>
+            <NextTopLoader />
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <main>{children}</main>
+              <Toaster />
+            </ThemeProvider>
+          </body>
+        </html>
+      </ClerkProvider>
+    </>
   );
 }

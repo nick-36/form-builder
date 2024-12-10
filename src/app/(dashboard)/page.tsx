@@ -8,10 +8,11 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen min-w-full max-h-screen">
       <Suspense fallback={<StatsCards loading={true} />}>
+        {/* @ts-expect-error Server Component */}
         <CardStatsWrapper />
       </Suspense>
       <Separator className="mt-2" />
-      <h2 className="text-4xl font-bold col-span-2 text-white px-4">
+      <h2 className="text-3xl font-semibold col-span-2 text-muted-foreground px-4 py-2">
         Your Forms
       </h2>
       <Separator className="mt-2" />
@@ -22,6 +23,7 @@ export default function Home() {
             <FormCardSkeleton key={el} />
           ))}
         >
+          {/* @ts-expect-error Server Component */}
           <FormCards />
         </Suspense>
       </div>

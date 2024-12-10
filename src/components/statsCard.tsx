@@ -15,7 +15,7 @@ interface StatsCardProps {
   icon: React.ReactNode;
 }
 
-export const CardStatsWrapper: any = async (): Promise<ReactNode> => {
+export const CardStatsWrapper = async (): Promise<ReactNode> => {
   const stats = await GetFormStats();
   return <StatsCards data={stats} loading={false} />;
 };

@@ -39,6 +39,7 @@ const FormSubmitComponent = ({
   const submitValue = (key: string, value: string) => {
     formValues.current[key] = value;
   };
+  console.log(formErrors.current, formValues.current, "FORM");
 
   const submitForm: () => void = async () => {
     formErrors.current = {};

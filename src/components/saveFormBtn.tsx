@@ -1,3 +1,4 @@
+"use client";
 import React, { useTransition } from "react";
 import { Button } from "./ui/button";
 import { Save } from "lucide-react";

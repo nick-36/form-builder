@@ -4,7 +4,6 @@ import { ElementsType, FormElementInstance } from "./formElements";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -21,7 +20,7 @@ type Row = {
   submittedAt: Date;
 };
 
-const SubmissionTable: any = async ({ id }: { id: number }) => {
+const SubmissionTable = async ({ id }: { id: number }) => {
   const form = await GetFormWithSubmission(id);
 
   if (!form) {
@@ -72,7 +71,7 @@ const SubmissionTable: any = async ({ id }: { id: number }) => {
       <h1 className="text-2xl font-bold my-4">Submissions</h1>
       <div className="rounded-md border">
         <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
+          {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
           <TableHeader>
             <TableRow>
               {columns.map((column) => (
@@ -101,9 +100,6 @@ const SubmissionTable: any = async ({ id }: { id: number }) => {
                       addSuffix: true,
                     })}
                   </TableCell>
-                  <TableCell>Paid</TableCell>
-                  <TableCell>Credit Card</TableCell>
-                  <TableCell className="text-right">$250.00</TableCell>
                 </TableRow>
               );
             })}

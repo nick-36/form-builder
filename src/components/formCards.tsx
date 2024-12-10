@@ -17,7 +17,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 
-export const FormCards: any = async () => {
+export const FormCards = async () => {
   const forms = await GetForms();
 
   return (

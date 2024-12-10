@@ -1,3 +1,4 @@
+"use client";
 import { useDesigner } from "@/store/designerStore";
 import React from "react";
 import { FormElements } from "./formElements";

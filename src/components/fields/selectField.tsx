@@ -228,12 +228,12 @@ const PropertiesComponent = ({
                   Add
                 </Button>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-2">
                 {form.watch("options").map((opt, index) => {
                   return (
                     <div
                       key={index}
-                      className="flex items-center justify-between gap-1"
+                      className="flex  items-center justify-between gap-1"
                     >
                       <Input
                         placeholder=""

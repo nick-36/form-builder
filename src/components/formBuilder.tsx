@@ -102,8 +102,8 @@ const FormBuilder = ({ form }: { form: Form }) => {
               </Button>
               <Button asChild variant="link" className="gap-2">
                 <Link href={`/forms/${form?.id}`}>
-                  <MoveRight />
                   Form Details
+                  <MoveRight />
                 </Link>
               </Button>
             </div>
