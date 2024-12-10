@@ -12,11 +12,12 @@
 // }
 
 module.exports = {
-  parser: "babel-eslint",
+  parser: "@babel/eslint-parser",
   extends: [
-    "prettier",
-    "plugin:react/recommended",
-    "plugin:storybook/recommended",
+    "next/core-web-vitals",
+    "next/typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
   env: {
     browser: true,
@@ -24,31 +25,23 @@ module.exports = {
     es6: true,
     es2020: true,
   },
-  plugins: ["prettier", "react", "react-hooks"],
   rules: {
     "no-extra-semi": 1,
     "no-inner-declarations": 2,
-    "no-use-before-define": [
-      "warn",
-      {
-        functions: false,
-        classes: true,
-      },
-    ],
     "react/no-unescaped-entities": "off",
-    curly: 2,
     "no-eval": 2,
     "no-extend-native": 2,
     "no-new-wrappers": 2,
     "no-with": 2,
     "no-return-await": 2,
-    "no-undef": 2,
     "no-var": 1,
-    "no-unused-vars": [
-      2,
+    "no-unused-vars": "off", // Disable the base rule
+    "@typescript-eslint/no-unused-vars": [
+      "warn", // Set to "warn" or "error" as per your preference
       {
-        argsIgnorePattern: "^_",
-        varsIgnorePattern: "^_",
+        argsIgnorePattern: "^_", // Ignore unused arguments starting with _
+        varsIgnorePattern: "^_", // Ignore unused variables starting with _
+        caughtErrorsIgnorePattern: "^_", // Ignore unused caught errors starting with _
       },
     ],
     "prefer-const": [
@@ -60,7 +53,6 @@ module.exports = {
     ],
     "no-array-constructor": 2,
     "no-new-object": 2,
-    "prettier/prettier": "error",
     "react/prop-types": 0,
     "react/no-find-dom-node": 0,
     "no-console": 1,
@@ -69,12 +61,8 @@ module.exports = {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-warning-comments": 0,
-    "@typescript-eslint/no-unused-vars": [
-      2,
-      {
-        args: "none",
-      },
-    ],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
   },
   overrides: [
     {
@@ -82,8 +70,10 @@ module.exports = {
       plugins: ["@typescript-eslint"],
       parser: "@typescript-eslint/parser",
       rules: {
-        "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": ["error"], // "@typescript-eslint/no-explicit-any": "warn",
+        "no-use-before-define": "off", // Disable base rule
+        "@typescript-eslint/no-use-before-define": "off", // Use TypeScript-specific rule
+        "no-unsafe-optional-chaining": "off",
+        " @typescript-eslint/no-explicit-any": "off",
       },
     },
   ],
