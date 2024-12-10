@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { SquareArrowOutUpRight } from "lucide-react";
 
 const VisitBtn = ({ shareURl }: { shareURl: string }) => {
-  const shareLink = `${process.env.NEXT_PUBLIC_BASE_URL}/submit/${shareURl}`;
+  const shareLink = `/submit/${shareURl}`;
   return (
     <div className="flex">
       <Button
