@@ -56,7 +56,7 @@ export const FormCard = ({ form }: { form: FormType }) => {
           )}
         </CardDescription>
       </CardHeader>
-      <CardContent className="h-[20] truncate text-sm text-muted-foreground">
+      <CardContent className="h-[20px] truncate text-sm text-muted-foreground">
         {form?.description ?? "No Description"}
       </CardContent>
       <CardFooter>
