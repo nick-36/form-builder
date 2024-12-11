@@ -20,7 +20,6 @@ const FormDetailsPage = async ({
   const idPayload = Number(formId);
   const form = await GetFormById(idPayload);
   const submittedForm = await GetFormWithSubmission(idPayload);
-  console.log(form, "FORM");
 
   if (!form) {
     throw new Error("Form Not Found!");
