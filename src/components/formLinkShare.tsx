@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "./ui/button";
-import { Share2 } from "lucide-react";
+import { Copy } from "lucide-react";
 import { Input } from "./ui/input";
 import { toast } from "@/hooks/use-toast";
 
@@ -24,7 +24,7 @@ const FormLinkShare = ({ shareURl }: { shareURl: string }) => {
           });
         }}
       >
-        Share Link <Share2 className="mr-2 h-4 w-4" />
+        Share Link <Copy className="mr-2 h-4 w-4" />
       </Button>
     </div>
   );
