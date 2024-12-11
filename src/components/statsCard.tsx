@@ -33,7 +33,7 @@ export const StatsCards = ({
         title="Total visits"
         statValue={data?.visits.toLocaleString() ?? ""}
         description="all time visits"
-        className="shadow-md shadow-blue-600"
+        className="shadow-md shadow-blue-600 [background:linear-gradient(45deg,#000,#000)_padding-box,conic-gradient(from_var(--border-angle),theme(colors.blue.400/.48)_80%,_theme(colors.blue.500)_86%,_theme(colors.blue.300)_0%,_theme(colors.blue.500)_94%,_theme(colors.blue.600/.48))_border-box]"
         loading={loading}
         icon={<LuView className="text-blue-500" />}
       />
@@ -41,7 +41,7 @@ export const StatsCards = ({
         title="Total Submission"
         statValue={data?.submissions.toLocaleString() ?? ""}
         description="all time submissions"
-        className="shadow-md shadow-yellow-600"
+        className="shadow-md shadow-yellow-600 [background:linear-gradient(45deg,#000,#000)_padding-box,conic-gradient(from_var(--border-angle),theme(colors.yellow.400/.48)_80%,_theme(colors.yellow.500)_86%,_theme(colors.yellow.300)_0%,_theme(colors.yellow.500)_94%,_theme(colors.yellow.600/.48))_border-box]"
         loading={loading}
         icon={<BookText className="text-yellow-500" />}
       />
@@ -49,7 +49,7 @@ export const StatsCards = ({
         title="Submission Rate"
         statValue={`${data?.submissionRate.toLocaleString() ?? ""}%`}
         description="all the visits that results into submissions"
-        className="shadow-md shadow-green-600"
+        className="shadow-md shadow-green-600 [background:linear-gradient(45deg,#000,#000)_padding-box,conic-gradient(from_var(--border-angle),theme(colors.green.400/.48)_80%,_theme(colors.green.500)_86%,_theme(colors.green.300)_0%,_theme(colors.green.500)_94%,_theme(colors.green.600/.48))_border-box]"
         loading={loading}
         icon={<MousePointerClick className="text-green-500" />}
       />
@@ -57,7 +57,7 @@ export const StatsCards = ({
         title="Bounce Rate"
         statValue={`${data?.bounceRate.toLocaleString()}%` || ""}
         description="all the visits that left without interacting"
-        className="shadow-md shadow-red-600"
+        className="shadow-md shadow-red-600 [background:linear-gradient(45deg,#000,#000)_padding-box,conic-gradient(from_var(--border-angle),theme(colors.red.400/.48)_80%,_theme(colors.red.500)_86%,_theme(colors.red.300)_0%,_theme(colors.red.500)_94%,_theme(colors.red.600/.48))_border-box]"
         loading={loading}
         icon={<PointerOff className="text-red-500" />}
       />
@@ -74,7 +74,12 @@ export const StatsCard = ({
   icon,
 }: StatsCardProps) => {
   return (
-    <Card className={cn("flex flex-col shadow-lg", className)}>
+    <Card
+      className={cn(
+        "flex flex-col shadow-lg w-full max-w-[422px] border border-transparent animate-border",
+        className
+      )}
+    >
       <CardHeader className="flex flex-row justify-between items-center pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
