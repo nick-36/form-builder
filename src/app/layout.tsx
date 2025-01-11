@@ -21,7 +21,6 @@ export default function RootLayout({
 }) {
   return (
     <>
-      {/* @ts-expect-error Server Component */}
       <ClerkProvider>
         <html lang="en">
           <body className={cn(poppins.className)}>
