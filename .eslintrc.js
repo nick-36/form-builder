@@ -1,16 +1,3 @@
-// {
-//   "extends": [
-//     "next/core-web-vitals",
-//     "next/typescript",
-//     "eslint:recommended",
-//     "plugin:@typescript-eslint/recommended"
-//   ],
-//   "rules": {
-//     "no-unused-vars": "off",
-//     "@typescript-eslint/no-unused-vars": ["error"]
-//   }
-// }
-
 module.exports = {
   parser: "@babel/eslint-parser",
   extends: [
